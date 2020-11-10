@@ -79,16 +79,22 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event, ui) {
+    $(this).addClass("dropover");
     //console.log("activate", this);
+    $(".bottom-trash").addClass("bottom-trash-drag");
   },
   deactivate: function(event, ui) {
     //console.log("deactivate", this);
+    $(this).removeClass("dropover");
+    $(".bottom-trash").removeClass("bottom-trash-drag");
   },
   over: function(event, ui) {
     //console.log("over", event.target);
+    $(event.target).addClass("dropover-active");
   },
   out: function(event) {
     //console.log("out", event.target);
+    $(event.target).removeClass("dropover-active");
   },
   update: function(event) {
     //console.log($(this).children());
@@ -133,13 +139,16 @@ $("#trash").droppable({
   drop: function(event, ui) {
     // remove draggable element from the DOM
     ui.draggable.remove();
-    console.log("drop");
+    //console.log("drop");
+    $(".bottom-trash").removeClass("bottom-trash-active")
   },
   over: function(event, ui) {
-    console.log("over");
+    //console.log("over");
+    $(".bottom-trash").addClass("bottom-trash-active");
   },
   out: function(event, ui) {
-    console.log("out");
+    //console.log("out");
+    $(".bottom-trash").removeClass("bottom-trash-active")
   }
 });
 // convert text field into a jquery date picker
@@ -158,7 +167,7 @@ $("#task-form-modal").on("shown.bs.modal", function() {
 });
 
 // save button in modal was clicked
-$("#task-form-modal .btn-primary").click(function() {
+$("#task-form-modal .btn-save").click(function() {
   // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
